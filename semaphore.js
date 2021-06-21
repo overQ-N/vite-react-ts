@@ -1,11 +1,15 @@
-;(function (global) {
-  'use strict'
+(function (global) {
+  "use strict";
   // limit simultaneous access to a resource
   var nextTick = function (fn) {
-    setTimeout(fn, 0)
-  }
-  if (typeof process !== 'undefined' && process && typeof process.nextTick === 'function') {
-    nextTick = process.nextTick
+    setTimeout(fn, 0);
+  };
+  if (
+    typeof process !== "undefined" &&
+    process &&
+    typeof process.nextTick === "function"
+  ) {
+    nextTick = process.nextTick;
   }
   function semaphore(capacity) {
     var semaphore = {
@@ -15,74 +19,74 @@
       firstHere: false,
       take: function () {
         if (semaphore.firstHere === false) {
-          semaphore.current++
-          semaphore.firstHere = true
-          var isFirst = 1
+          semaphore.current++;
+          semaphore.firstHere = true;
+          var isFirst = 1;
         } else {
-          var isFirst = 0
+          var isFirst = 0;
         }
-        var item = { n: 1 }
-        if (typeof arguments[0] === 'function') {
-          item.task = arguments[0]
+        var item = { n: 1 };
+        if (typeof arguments[0] === "function") {
+          item.task = arguments[0];
         } else {
-          item.n = arguments[0]
+          item.n = arguments[0];
         }
         if (arguments.length >= 2) {
-          if (typeof arguments[1] === 'function') item.task = arguments[1]
-          else item.n = arguments[1]
+          if (typeof arguments[1] === "function") item.task = arguments[1];
+          else item.n = arguments[1];
         }
-        var task = item.task
+        var task = item.task;
         item.task = function () {
-          task(semaphore.leave)
-        }
+          task(semaphore.leave);
+        };
         if (semaphore.current + item.n - isFirst > semaphore.capacity) {
           if (isFirst === 1) {
-            semaphore.current--
-            semaphore.firstHere = false
+            semaphore.current--;
+            semaphore.firstHere = false;
           }
-          return semaphore.queue.push(item)
+          return semaphore.queue.push(item);
         }
-        semaphore.current += item.n - isFirst
-        console.dir(item.task)
-        item.task(semaphore.leave)
-        if (isFirst === 1) semaphore.firstHere = false
+        semaphore.current += item.n - isFirst;
+        console.dir(item.task);
+        item.task(semaphore.leave);
+        if (isFirst === 1) semaphore.firstHere = false;
       },
       leave: function (n) {
-        n = n || 1
-        console.log(`n`, n)
-        semaphore.current -= n
+        n = n || 1;
+        console.log(`n`, n);
+        semaphore.current -= n;
         if (!semaphore.queue.length) {
           if (semaphore.current < 0) {
-            throw new Error('leave called too many times')
+            throw new Error("leave called too many times");
           }
-          return
+          return;
         }
-        var item = semaphore.queue[0]
+        var item = semaphore.queue[0];
 
-        console.log(77)
+        console.log(77);
         if (item.n + semaphore.current > semaphore.capacity) {
-          return
+          return;
         }
-        semaphore.queue.shift()
-        semaphore.current += item.n
-        nextTick(item.task)
+        semaphore.queue.shift();
+        semaphore.current += item.n;
+        nextTick(item.task);
       },
       available: function (n) {
-        n = n || 1
-        return semaphore.current + n <= semaphore.capacity
+        n = n || 1;
+        return semaphore.current + n <= semaphore.capacity;
       },
-    }
-    return semaphore
+    };
+    return semaphore;
   }
 
-  if (typeof exports === 'object') {
-    module.exports = semaphore
-  } else if (typeof define === 'function' && define.amd) {
+  if (typeof exports === "object") {
+    module.exports = semaphore;
+  } else if (typeof define === "function" && define.amd) {
     define(function () {
-      return semaphore
-    })
+      return semaphore;
+    });
   } else {
     // browser
-    global.semaphore = semaphore
+    global.semaphore = semaphore;
   }
-})(this)
+})(this);
