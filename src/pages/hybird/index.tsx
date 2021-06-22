@@ -8,35 +8,16 @@ import {
   flow,
 } from "mobx";
 import { observer } from "mobx-react";
+import {useStores} from '@/hooks'
 import { Button } from "antd";
-class Timer {
-  count = 0;
-  constructor() {
-    makeObservable(this, {
-      increment: action,
-      reduce: action,
-      count: observable,
-    });
-  }
-  increment() {
-    this.count++;
-  }
-  reduce() {
-    this.count--;
-  }
-}
-const timer = new Timer();
-const Btn = observer(({ timer }) => {
-  return <Button>123456{timer.count}</Button>;
-});
-const Hybird = () => {
+
+const Hybird = observer(() => {
+  const commonStore = useStores('commonStore')
   return (
     <div>
-      Hybird
-      <button onClick={() => timer.increment()}>+1</button>
-      <Btn timer={timer}></Btn>
+      <Button onClick={()=>commonStore.increment()}>{ commonStore.count}</Button>
     </div>
   );
-};
+});
 
 export default Hybird;
