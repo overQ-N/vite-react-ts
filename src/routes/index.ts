@@ -2,12 +2,18 @@ import loadable from "@loadable/component";
 import { RouteConfig } from "react-router-config";
 import Layout from "@/layouts";
 import Home from "@/pages/home";
+import Login from "@/layouts/login";
 
 const routesConfig: RouteConfig[] = [
   {
     path: "/",
     exact: true,
     component: Home,
+  },
+  {
+    path: "/login",
+    exact: true,
+    component: Login,
   },
   {
     path: "/hybird",

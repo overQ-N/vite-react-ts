@@ -6,6 +6,8 @@ import reactRefresh from "@vitejs/plugin-react-refresh";
 import legacy from "@vitejs/plugin-legacy";
 import { minifyHtml } from "vite-plugin-html";
 import vitePluginImp from "vite-plugin-imp";
+import createImportPlugin from "vite-plugin-import";
+import tsconfigPaths from "vite-tsconfig-paths";
 const resolve = (dir) => path.resolve(__dirname, dir);
 const env = dotenv.config().parsed;
 
@@ -30,6 +32,7 @@ const config: UserConfigExport = {
   // },
   plugins: [
     reactRefresh(),
+    tsconfigPaths(),
     legacy({
       targets: [
         "Android >= 39",
@@ -40,14 +43,28 @@ const config: UserConfigExport = {
         "not IE 11",
       ],
     }),
-    vitePluginImp({
-      libList: [
-        {
-          libName: "antd",
-          style: (name) => `antd/es/${name}/style/index.css`,
-        },
-      ],
-    }),
+    // vitePluginImp({
+    //   libList: [
+    //     {
+    //       libName: "antd",
+    //       style: (name) => {
+    //         console.log(
+    //           `object`,
+    //           fs.existsSync(
+    //             path.resolve(
+    //               __dirname,
+    //               `./node_modules/antd/es/${name}/style/index`
+    //             )
+    //           )
+    //         );
+    //         if (fs.existsSync(`./node_modules/antd/es/${name}/style/index`)) {
+    //           return `antd/es/${name}/style/index`;
+    //         }
+    //         return false;
+    //       },
+    //     },
+    //   ],
+    // }),
   ],
 
   resolve: {
