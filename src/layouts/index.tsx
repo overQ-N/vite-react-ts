@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RouteConfigComponentProps, renderRoutes } from "react-router-config";
-const Layout: React.FC<RouteConfigComponentProps> = React.memo((props) => {
+import { Layout } from "antd";
+import { useStores } from "@/hooks";
+const { Header, Footer, Sider, Content } = Layout;
+const Layouts: React.FC<RouteConfigComponentProps> = React.memo((props) => {
+  const commonStore = useStores("commonStore");
+  useEffect(() => {
+    if (!commonStore.apps.length) {
+      commonStore.getApps();
+    }
+  }, []);
   const { route } = props;
-  return renderRoutes(route?.routes);
+  return (
+    <Layout>
+      <Sider
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+        Sider
+      </Sider>
+      <Layout>
+        <Header>Header</Header>
+        <Content>{renderRoutes(route?.routes)}</Content>
+      </Layout>
+    </Layout>
+  );
 });
 
-export default Layout;
+export default Layouts;

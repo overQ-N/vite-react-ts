@@ -94,6 +94,10 @@ const config: UserConfigExport = {
         target: env.VITE_APP_API,
         changeOrigin: true,
       },
+      "/auth": {
+        target: env.VITE_APP_API,
+        changeOrigin: true,
+      },
     },
     // open: true,
   },
