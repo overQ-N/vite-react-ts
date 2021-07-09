@@ -19,7 +19,7 @@ menu.forEach((item) => {
     item.children.forEach((cItem) => {
       routeItem.routes?.push({
         path: `${path}/${cItem.path}`,
-        component: loadable(() => import(`@/${cItem.component}`)),
+        component: loadable(() => import(`../${cItem.component}`)),
       });
     });
   }
