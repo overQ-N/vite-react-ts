@@ -1,0 +1,32 @@
+.sider {
+  background: var(--color-primary);
+  z-index: 99;
+  min-height: 100vh;
+  position: fixed;
+  left: 0;
+  .app {
+    padding: 20px 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .menu {
+    position: absolute;
+    top: 0;
+    right: -150px;
+    z-index: -1;
+    opacity: 0;
+    bottom: 0;
+    width: 150px;
+    background: pink;
+    transition: opacity 0.3s ease-out;
+    height: 100%;
+    overflow-y: auto;
+    &.active {
+      z-index: 999;
+      opacity: 1;
+    }
+  }
+}
+.layout {
+  margin-left: 100px;
+}

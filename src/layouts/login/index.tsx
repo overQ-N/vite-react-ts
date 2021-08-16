@@ -72,6 +72,9 @@ const Login: React.FC<Props> = observer((props) => {
       })
     );
     if (ret?.message === "验证码不合法") {
+      form.setFieldsValue({
+        code: "",
+      });
       return refreshCode();
     }
     if (commonStore.userInfo.nickname) {
@@ -88,6 +91,7 @@ const Login: React.FC<Props> = observer((props) => {
           form={form}
           scrollToFirstError
           onFinish={onFinish}
+          autoComplete="off"
         >
           <Form.Item
             name="username"

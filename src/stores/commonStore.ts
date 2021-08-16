@@ -1,4 +1,4 @@
-import { makeAutoObservable, action, runInAction } from "mobx";
+import { makeAutoObservable, action, runInAction, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { getStore, setStore } from "@/utils/storage";
 import { loginByUserName } from "@/api/layouts/login";
@@ -22,7 +22,7 @@ export interface UserInfo {
   [key: string]: unknown;
 }
 
-interface AppItem {
+export interface AppItem {
   appCode: string;
   appIcon: string;
   appKey: string;
@@ -115,17 +115,19 @@ class CommonStore implements ICommonStore {
     try {
       const { data: res } = await getRoleApp();
       if (res.code === 0) {
-        const apps = res.data;
+        const apps: AppItem[] = res.data;
         const { data: ret } = await getMenu();
         if (ret.code === 0) {
           const menu = ret.data;
           runInAction(() => {
             this.state = "done";
-            this.apps = apps;
+            // appType=2 不显示
+            const showApps = apps.filter((v) => v.appType === 1);
+            this.apps = showApps;
             this.menu = menu;
             setStore({
               key: "apps",
-              value: apps,
+              value: showApps,
             });
             setStore({
               key: "menu",
@@ -135,6 +137,7 @@ class CommonStore implements ICommonStore {
         }
       }
     } catch (error) {
+      console.log(error);
       this.state = "error";
     }
   }

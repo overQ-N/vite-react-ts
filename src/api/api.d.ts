@@ -6,3 +6,8 @@ interface Response {
   msg: string;
 }
 export type TResponse = AxiosPromise<Response>;
+export type TData = {
+  current?: number;
+  size?: number;
+  [key: string]: any;
+};

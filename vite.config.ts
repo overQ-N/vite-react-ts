@@ -98,6 +98,10 @@ const config: UserConfigExport = {
         target: env.VITE_APP_API,
         changeOrigin: true,
       },
+      "/admin": {
+        target: env.VITE_APP_API,
+        changeOrigin: true,
+      },
     },
     // open: true,
   },
