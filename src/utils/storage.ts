@@ -3,7 +3,7 @@ interface Store {
   key: string;
   value?: unknown;
 }
-export function getStore({ type = "session", key }: Store) {
+function getStore({ type = "session", key }: Store) {
   if (type === "session") {
     let result = sessionStorage.getItem(key);
     try {
@@ -21,7 +21,9 @@ export function getStore({ type = "session", key }: Store) {
     return result as any;
   }
 }
-export function setStore({ type = "session", key, value }: Store) {
+// TODO 重载
+// function setStore(key: string, value: unknown):void
+function setStore({ type = "session", key, value }: Store) {
   let target = value;
   if (typeof value === "object") {
     target = JSON.stringify(value);
@@ -32,3 +34,4 @@ export function setStore({ type = "session", key, value }: Store) {
     localStorage.setItem(key, String(target));
   }
 }
+export { setStore, getStore };

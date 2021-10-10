@@ -52,11 +52,9 @@ type Eg5 = OptionKeys<{
 type TypeKeys<T> = T[keyof T];
 type PickByValue<T, V> = Pick<
   T,
-  TypeKeys<
-    {
-      [K in keyof T]: T[K] extends V ? K : never;
-    }
-  >
+  TypeKeys<{
+    [K in keyof T]: T[K] extends V ? K : never;
+  }>
 >;
 type Eg6 = TypeKeys<{
   a: string;
@@ -94,7 +92,7 @@ const Home: React.FC<Props> = (props) => {
   return (
     <div>
       <Button type="primary" onClick={goToMulPage}>
-        test
+        Home
       </Button>
     </div>
   );

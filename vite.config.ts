@@ -13,23 +13,6 @@ const env = dotenv.config().parsed;
 
 // https://vitejs.dev/config/
 const config: UserConfigExport = {
-  // base: "xx",
-  // build: {
-  //   lib: {
-  //     // 自构建库
-  //     entry: resolve("lib/main.ts"),
-  //     name: "myLib",
-  //   },
-  //   rollupOptions: {
-  //     // 自构建库不需要的依赖
-  //     external: ["react"],
-  //     output: {
-  //       globals: {
-  //         react: "React",
-  //       },
-  //     },
-  //   },
-  // },
   plugins: [
     reactRefresh(),
     tsconfigPaths(),
@@ -98,10 +81,10 @@ const config: UserConfigExport = {
         target: env.VITE_APP_API,
         changeOrigin: true,
       },
-      "/admin": {
-        target: env.VITE_APP_API,
-        changeOrigin: true,
-      },
+      // "/admin": {
+      //   target: env.VITE_APP_API,
+      //   changeOrigin: true,
+      // },
     },
     // open: true,
   },
