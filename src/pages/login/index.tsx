@@ -7,6 +7,7 @@ import styles from "./index.module.less";
 import { flowResult } from "mobx";
 import { withRouter, RouteComponentProps } from "react-router";
 import { getStore } from "@/utils/storage";
+import request from "@/common/request";
 
 const formItemLayout = {
   labelCol: {
@@ -57,20 +58,7 @@ const Login: React.FC<Props> = observer((props) => {
   };
 
   const onFinish = async (values: any) => {
-    values.randomStr = randomStr;
-    const user = encryption({
-      data: values,
-      key: "lenx123456789000",
-      param: ["password"],
-    });
-    const ret = await flowResult(
-      commonStore.setUserInfo({
-        ...user,
-        grant_type: "password",
-        scope: "server",
-        tenantId: 1,
-      })
-    );
+    const ret = await flowResult(commonStore.setUserInfo(values));
     if (ret?.message === "验证码不合法") {
       form.setFieldsValue({
         code: "",
@@ -121,7 +109,7 @@ const Login: React.FC<Props> = observer((props) => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item label="Captcha" required>
+          {/* <Form.Item label="Captcha" required>
             <Row gutter={8}>
               <Col span={12}>
                 <Form.Item
@@ -141,7 +129,7 @@ const Login: React.FC<Props> = observer((props) => {
                 <img src={captchaSrc} alt="" className={styles.img} />
               </Col>
             </Row>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">

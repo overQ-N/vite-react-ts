@@ -6,6 +6,7 @@ import { TResponse } from "@/api/api";
 import { getRoleApp, getMenu } from "@/api/layouts";
 import { AxiosPromise } from "axios";
 import { ReactNode } from "react";
+import request from "@/common/request";
 export interface UserInfo {
   access_token?: string;
   dept_id?: number;
@@ -96,8 +97,8 @@ class CommonStore implements ICommonStore {
     let err = null;
 
     try {
-      const { data: res } = yield loginByUserName(data);
-      const userInfo: UserInfo = res;
+      const { data: res } = yield request.post("/mock/login", data);
+      const userInfo: UserInfo = res.data;
       setStore({
         key: "userInfo",
         value: userInfo,

@@ -69,22 +69,10 @@ const config: UserConfigExport = {
   },
   server: {
     proxy: {
-      "/code": {
+      "/api": {
         target: env.VITE_APP_API,
         changeOrigin: true,
       },
-      "/upc": {
-        target: env.VITE_APP_API,
-        changeOrigin: true,
-      },
-      "/auth": {
-        target: env.VITE_APP_API,
-        changeOrigin: true,
-      },
-      // "/admin": {
-      //   target: env.VITE_APP_API,
-      //   changeOrigin: true,
-      // },
     },
     // open: true,
   },

@@ -8,7 +8,7 @@ import "@/styles/global.less";
 import { renderRoutes, matchRoutes } from "react-router-config";
 import routes from "./routes";
 import stores from "./stores";
-
+import "@/mock/login";
 ReactDOM.render(
   <React.StrictMode>
     <Provider stores={stores}>

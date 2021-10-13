@@ -3,7 +3,7 @@ import { RouteConfig, renderRoutes } from "react-router-config";
 import asyncRoutes from "./asyncRoutes";
 import layoutRoutes from "./layoutRoutes";
 import Layout from "@/layouts";
-import Login from "@/layouts/login";
+import Login from "@/pages/login";
 import Home from "@/pages/home";
 const routesConfig: RouteConfig[] = [
   {
