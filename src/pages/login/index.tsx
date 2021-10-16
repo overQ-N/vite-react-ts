@@ -1,143 +1,100 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Row, Col, Button, Spin } from "antd";
+import React, { useState, ChangeEventHandler } from "react";
+
 import { observer } from "mobx-react";
 import { useStores } from "@/hooks";
-import { encryption } from "@/utils/md5";
-import styles from "./index.module.less";
+
 import { flowResult } from "mobx";
 import { withRouter, RouteComponentProps } from "react-router";
-import { getStore } from "@/utils/storage";
-import request from "@/common/request";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
-// 生成随机len位数字
-const randomLenStr = (len: number, isDate?: boolean) => {
-  let random = Math.ceil(Math.random() * 10000000000000)
-    .toString()
-    .substr(0, len);
-  if (isDate) {
-    random += Date.now();
-  }
-  return random;
-};
-let randomStr = "";
-
+import loginComputer from "@/assets/images/login-computer.png";
+import "./index.less";
 interface Props extends RouteComponentProps {}
 const Login: React.FC<Props> = observer((props) => {
-  const [form] = Form.useForm();
-  const [captchaSrc, setCaptchaSrc] = useState<string>();
+  const [formModel, setFormModel] = useState({
+    username: "admin",
+    password: "123456",
+  });
+
   const commonStore = useStores("commonStore");
-
-  useEffect(() => {
-    refreshCode();
-  }, []);
-  const refreshCode = (): void => {
-    randomStr = randomLenStr(4, true);
-    setCaptchaSrc(`${window.location.origin}/code?randomStr=${randomStr}`);
+  const onInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFormModel({
+      ...formModel,
+      [e.target.name]: e.target.value,
+    });
   };
-
-  const onFinish = async (values: any) => {
-    const ret = await flowResult(commonStore.setUserInfo(values));
-    if (ret?.message === "验证码不合法") {
-      form.setFieldsValue({
-        code: "",
-      });
-      return refreshCode();
-    }
+  const onSubmit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const ret = await flowResult(commonStore.setUserInfo(formModel));
     if (commonStore.userInfo.nickname) {
       props.history.replace("/");
     }
   };
 
   return (
-    <div className={styles.login}>
-      <Spin spinning={commonStore.state === "pending"}>
-        <Form
-          className={styles.loginBox}
-          {...formItemLayout}
-          form={form}
-          scrollToFirstError
-          onFinish={onFinish}
-          autoComplete="off"
-        >
-          <Form.Item
-            name="username"
-            label="Username"
-            tooltip="What do you want others to call you?"
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
+    <div className="dowebok">
+      <div className="container-login100">
+        <div className="wrap-login100">
+          <div className="login100-pic js-tilt" data-tilt="">
+            <img src={loginComputer} alt="IMG" />
+          </div>
+          <form className="login100-form validate-form">
+            <span className="login100-form-title">会员登陆</span>
 
-          {/* <Form.Item label="Captcha" required>
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item
-                  name="code"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the captcha you got!",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12} onClick={refreshCode}>
-                <img src={captchaSrc} alt="" className={styles.img} />
-              </Col>
-            </Row>
-          </Form.Item> */}
+            <div className="wrap-input100 validate-input">
+              <input
+                className="input100"
+                value={formModel.username}
+                onChange={onInput}
+                type="text"
+                name="username"
+                placeholder="用户名"
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <UserOutlined />
+              </span>
+            </div>
 
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Login
-            </Button>
-          </Form.Item>
-        </Form>
-      </Spin>
+            <div className="wrap-input100 validate-input">
+              <input
+                className="input100"
+                value={formModel.password}
+                onChange={onInput}
+                type="password"
+                name="password"
+                placeholder="密码"
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <LockOutlined />
+              </span>
+            </div>
+
+            <div className="container-login100-form-btn">
+              <button className="login100-form-btn" onClick={onSubmit}>
+                登陆
+              </button>
+            </div>
+
+            <div className="text-center pt-4">
+              <a className="txt2" href="#">
+                忘记密码？
+              </a>
+            </div>
+
+            <div className="text-center pt-32">
+              <a className="txt2" href="#" target="_blank">
+                还没有账号？立即注册
+                <i
+                  className="fa fa-long-arrow-right m-l-5"
+                  aria-hidden="true"
+                ></i>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 });

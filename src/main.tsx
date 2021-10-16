@@ -5,6 +5,7 @@ import zhCN from "antd/lib/locale/zh_CN";
 import { ConfigProvider } from "antd";
 import { BrowserRouter } from "react-router-dom";
 import "@/styles/global.less";
+import "@/styles/tailwind.css";
 import { renderRoutes, matchRoutes } from "react-router-config";
 import routes from "./routes";
 import stores from "./stores";

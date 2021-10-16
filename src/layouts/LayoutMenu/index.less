@@ -12,7 +12,26 @@
     font-weight: 700;
   }
   .layout-menu-body {
-    flex: 1;
+    flex: 1 1 0%;
     width: 100%;
   }
+}
+
+.layout-menu--extend {
+  width: 200px;
+  overflow: hidden;
+  flex: 0 0 200px;
+  max-width: 200px;
+  min-width: 200px;
+  transition: background-color 0.3s ease 0s, min-width 0.3s ease 0s,
+    max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
+}
+.layout-menu--collapsed {
+  width: 48px;
+  overflow: hidden;
+  flex: 0 0 48px;
+  max-width: 48px;
+  min-width: 48px;
+  transition: background-color 0.3s ease 0s, min-width 0.3s ease 0s,
+    max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
 }

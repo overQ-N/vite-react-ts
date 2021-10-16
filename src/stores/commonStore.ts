@@ -7,6 +7,7 @@ import { getRoleApp, getMenu } from "@/api/layouts";
 import { AxiosPromise } from "axios";
 import { ReactNode } from "react";
 import request from "@/common/request";
+import { User } from "./typings";
 export interface UserInfo {
   access_token?: string;
   dept_id?: number;
@@ -87,12 +88,7 @@ class CommonStore implements ICommonStore {
   updateState(state: State) {
     this.state = state;
   }
-  *setUserInfo(data: {
-    grant_type: string;
-    scope: "server";
-    tenantId: number;
-    [key: string]: unknown;
-  }) {
+  *setUserInfo(data: { username: string; password: string }) {
     this.state = "pending";
     let err = null;
 

@@ -1,7 +1,11 @@
 import React, { ReactNode } from "react";
 import { RouteConfig, renderRoutes } from "react-router-config";
 import loadable from "@loadable/component";
-import { AppstoreOutlined, PieChartOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  PieChartOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import Layout from "@/layouts";
 import Home from "@/pages/home";
 
@@ -16,6 +20,7 @@ const layoutRoutes: ExtendRouteConfig[] = [
     key: "/",
     exact: true,
     name: "首页",
+    icon: <HomeOutlined />,
     component: Layout,
 
     routes: [

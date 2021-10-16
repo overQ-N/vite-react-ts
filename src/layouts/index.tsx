@@ -20,9 +20,10 @@ const Layouts: React.FC<RouteConfigComponentProps> = (props) => {
 
   return (
     <Layout style={{ height: "100%" }}>
-      <Sider>
-        <LayoutMenu />
-      </Sider>
+      {/* <Sider> */}
+      <LayoutMenu />
+      {/* </Sider> */}
+
       <Layout>
         <Header style={{ background: "#fff" }}>
           <LayoutHeader />
